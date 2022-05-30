@@ -9,15 +9,20 @@ resource "aws_db_subnet_group" "default" {
 }
 
 resource "aws_db_instance" "default" {
-  allocated_storage      = 10
-  db_subnet_group_name   = aws_db_subnet_group.default.id
-  engine                 = "mysql"
-  engine_version         = "8.0.20"
-  instance_class         = "db.t2.micro"
-  multi_az               = true
-  name                   = "mydb"
-  username               = "username"
-  password               = "password"
-  skip_final_snapshot    = true
-  vpc_security_group_ids = [aws_security_group.database-sg.id]
+  allocated_storage        = 256 # gigabytes
+  backup_retention_period  = 7   # in days
+  db_subnet_group_name     = aws_db_subnet_group.default.id
+  engine                   = "postgres"
+  engine_version           = "9.5.4"
+  identifier               = "mydb"
+  instance_class           = "db.t2.micro"
+  multi_az                 = true
+  name                     = "mydb"
+  password                 = "${trimspace(file("${path.module}/secrets/mydb1-password.txt"))}"
+  port                     = 5432
+  publicly_accessible      = true
+  storage_encrypted        = true # you should always do this
+  storage_type             = "gp2"
+  username                 = "username"
+  vpc_security_group_ids   = [aws_security_group.database-sg.id]
 }
