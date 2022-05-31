@@ -2,7 +2,7 @@
 Terraform-GDP-app-with-postgressql
 
 ### Architechture Diagram 
-![Alt text](./files/architechture.png?raw=true "GTD with Postgresql implementation on AWS using Terraform")
+![Alt text](./files/architecture.png?raw=true "GTD with Postgresql implementation on AWS using Terraform")
 ### Prerequisites:
 
 - AWS account with access keys and secret access key generated for same
