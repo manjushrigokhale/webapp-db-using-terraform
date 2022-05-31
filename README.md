@@ -1,30 +1,50 @@
 # Terraform-GDP-app-with-postgressql
-Terraform-GDP-app-with-postgressql
+In this project we are trying to create AWS infrastructure using Terraform and deploy your applicaiton which will be connected to RDS-Postgresql in the backend.
 
 ### Architechture Diagram 
 ![Alt text](./files/architecture.png?raw=true "GTD with Postgresql implementation on AWS using Terraform")
 ### Prerequisites:
 
-- AWS account with access keys and secret access key generated for same
-- Terraform installed onto machine
-- AWS cli installed onto machine
+* Basic knowledge of AWS & Terraform
+* AWS account
+* AWS Access & Secret Key
+
+**Create a file for user data**
+
+* Create data.sh file and add the below code to it
+
+  ```
+  #!/bin/bash
+  yum update -y
+  yum install -y httpd.x86_64
+  systemctl start httpd.service
+  systemctl enable httpd.service
+  echo "Hello World from $(hostname -f)" > /var/www/html/index.html
+  ```
   
-### Steps to implement mediawiki using terraform on aws account
-1.Configure aws credentials on your machine
-2.Clone this repo Terraform-GDP-app-with-postgressql
-3.Make sure you generate a ssh key using command ssh-keygen onto the server, the public key should be used while creating the instance Key, and private key should be used for accessing the instance. please refer SSH-KEYGEN
+* The above code will install an apache webserver in the EC2 instances
 
-### Plan
-```
-terrform plan
-```
+So, now our entire code is ready. We need to run the below steps to create infrastructure.
 
-### Apply
-```
-terraform apply
-```
+* terraform init is to initialize the working directory and downloading plugins of the provider
+* terraform plan is to create the execution plan for our code
+* terraform apply is to create the actual infrastructure. It will ask you to provide the Access Key and Secret Key in order to create the infrastructure. So, instead of hardcoding the Access Key and Secret Key, it is better to apply at the run time.
 
-### Destroy
-```
-terraform destroy
-```
+
+**Verify the resources**
+
+* Terraform will create below resources
+
+  * VPC
+  * Application Load Balancer
+  * Public & Private Subnets
+  * EC2 instances
+  * RDS instance
+  * Route Table
+  * Internet Gateway
+  * Security Groups for Web & RDS instances
+  * Route Table
+
+Once the resource creation finishes, get the DNS of a load balancer and paste it into the browser and load balancer will send the request to two instances.
+
+
